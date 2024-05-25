@@ -1,4 +1,4 @@
-Just testing what I've learned about fyne \n
+Just testing what I've learned about fyne /n
 TO INITILIZE: \n
 in folder with main.go file: \n
 go mod init "name for your module" \n
