@@ -1,180 +1,154 @@
 package main
-import(
-    "fmt"
-    "fyne.io/fyne/v2/app"
-    "fyne.io/fyne/v2/widget"
-    "fyne.io/fyne/v2/container"
-    "fyne.io/fyne/v2"
-    "fyne.io/fyne/v2/theme"
+
+import (
+	"fmt"
+	"strconv"
+
+	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/app"
+	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/theme"
+	"fyne.io/fyne/v2/widget"
+	// "fyne.io/fyne/v2/canvas"
 )
 
+var wys *widget.Label = widget.NewLabel("")
+
 type myTheme struct {
-    fyne.Theme
+	fyne.Theme
 }
 
+// var le int
+var sings []string
+var numbers []float64
+var licz string
+var wynn float64
+
+// setting a size of a font in a calculator
 func (m myTheme) Size(name fyne.ThemeSizeName) float32 {
-    if name == theme.SizeNameText {
-        return 18 // Default text size
-    }
-    return m.Theme.Size(name)
-}
-func main(){
-    var lista[] string
-    var list[] int
-    ap:=app.New()
-    win:=ap.NewWindow("calculator")
-    ap.Settings().SetTheme(&myTheme{theme.DefaultTheme()})
-    wynn:=0
-    wys:=widget.NewLabel("")
-    je:=widget.NewButton("1",func(){
-        elo:=wys.Text+"1"
-        wys.Text=elo
-        list=append(list,1)
-        wys.Refresh()
-    })
-    dw:=widget.NewButton("2",func(){
-        elo:=wys.Text+"2"
-        wys.Text=elo
-        wys.Refresh()
-        list=append(list,2)
-    })
-    sum:=widget.NewButton("+",func(){
-        elo:=wys.Text+"+"
-        lista=append(lista,"+")
-        wys.Text=elo
-        wys.Refresh()
-    })
-    diff:=widget.NewButton("-",func(){
-        elo:=wys.Text+"-"
-        wys.Text=elo
-        wys.Refresh()
-        lista=append(lista,"-")
-    })
-
-    tim:=widget.NewButton("*",func(){
-        elo:=wys.Text+"*"
-        wys.Text=elo
-        lista=append(lista,"*")
-        wys.Refresh()
-    })
-
-    tre:=widget.NewButton("3",func(){
-        elo:=wys.Text+"3"
-        wys.Text=elo
-        list=append(list,3)
-        wys.Refresh()
-    })
-   fo:=widget.NewButton("4",func(){
-        elo:=wys.Text+"4"
-        wys.Text=elo
-        wys.Refresh()
-        list=append(list,4)
-    })
-   fiv:=widget.NewButton("5",func(){
-        elo:=wys.Text+"5"
-        wys.Text=elo
-        wys.Refresh()
-        list=append(list,5)
-    })
-
-   six:=widget.NewButton("6",func(){
-        elo:=wys.Text+"6"
-        wys.Text=elo
-        wys.Refresh()
-        list=append(list,6)
-    })
-     sev:=widget.NewButton("7",func(){
-        elo:=wys.Text+"7"
-        wys.Text=elo
-        wys.Refresh()
-        list=append(list,7)
-    })
-     eigh:=widget.NewButton("8",func(){
-        elo:=wys.Text+"8"
-        wys.Text=elo
-        wys.Refresh()
-        list=append(list,8)
-    })
-     nine:=widget.NewButton("9",func(){
-        elo:=wys.Text+"9"
-        wys.Text=elo
-        wys.Refresh()
-        list=append(list,9)
-    })
-
-     zero:=widget.NewButton("0",func(){
-        elo:=wys.Text+"0"
-        wys.Text=elo
-        wys.Refresh()
-        list=append(list,0)
-    })
-    div:=widget.NewButton("/",func(){
-            elo:=wys.Text+"/"
-            lista=append(lista,"/")
-            wys.Text=elo
-            wys.Refresh()
-    })
-    c:=widget.NewButton("C",func(){
-        list=[]int{}
-        lista=[]string{}
-        wys.Text=" "
-        wys.Refresh()
-    })
-
-    eql:=widget.NewButton("=",func(){
-        wynn=list[0]
-        for i := 0; i < len(lista); i++{
-            if lista[i]=="+"{
-                    wynn=wynn+list[i+1]
-                }
-            if lista[i]=="-"{
-                    wynn=wynn-list[i+1]
-                }
-            if lista[i]=="*"{
-                    wynn=wynn*list[i+1]
-                }
-            if lista[i]=="/"{
-                    wynn=wynn/list[i+1]
-                }
-        }
-         wys.Text=fmt.Sprintln(wynn)
-         wys.Refresh()
-         lista=[]string{}
-         list=[]int{}
-    })
-    e:=container.NewHBox(
-        je,
-        dw,
-        tre,
-        sum,
-        tim,
-    )
-
-    win.SetContent(
-        container.NewVBox(
-            wys,
-            container.NewHBox(
-                e,
-            ),
-            container.NewHBox(
-                fo,
-                fiv,
-                six,
-                diff,
-                div,
-            ),
-            container.NewHBox(
-                sev,
-                eigh,
-                nine,
-                zero,
-                c,
-                eql,
-                ),
-        ),
-    )
-    win.Resize(fyne.NewSize(600,600))
-    win.ShowAndRun()
+	if name == theme.SizeNameText {
+		return 30 // Default text size
+	}
+	return m.Theme.Size(name)
 }
 
+func main() {
+	//background := canvas.NewImageFromFile("/home/wojtyla/programowanie/proj/background.jpg")
+	//background.FillMode = canvas.ImageFillStretch
 
+	ap := app.New()
+	win := ap.NewWindow("calculator")
+	ap.Settings().SetTheme(&myTheme{theme.DefaultTheme()})
+	wynn = 0
+
+	je := widget.NewButton("1", func() { number(1) })
+	dw := widget.NewButton("2", func() { number(2) })
+	sum := widget.NewButton("+", func() { sign("+") })
+	diff := widget.NewButton("-", func() { sign("-") })
+	tim := widget.NewButton("*", func() { sign("*") })
+	tre := widget.NewButton("3", func() { number(3) })
+	fo := widget.NewButton("4", func() { number(4) })
+	fiv := widget.NewButton("5", func() { number(5) })
+	six := widget.NewButton("6", func() { number(6) })
+	sev := widget.NewButton("7", func() { number(7) })
+	eigh := widget.NewButton("8", func() { number(8) })
+	nine := widget.NewButton("9", func() { number(9) })
+	zero := widget.NewButton("0", func() { number(0) })
+	div := widget.NewButton("/", func() { sign("/") })
+	c := widget.NewButton("C", func() {
+		numbers = []float64{}
+		sings = []string{}
+		wys.Text = ""
+		wys.Refresh()
+	})
+
+	eql := widget.NewButton("=", func() {
+
+		wynn = numbers[0]
+		//since when "=" is used "sign" function isnt called so, convert var "le" created in function "number" into int and store it in slice "numbers"
+		le, err := strconv.ParseFloat(licz, 64)
+		if err != nil {
+			le = 0
+		}
+		numbers = append(numbers, le)
+		//check sign used based on data stored in slice "sings"
+		for i := 0; i < len(sings); i++ {
+			if sings[i] == "+" {
+				wynn = wynn + numbers[i+1]
+			}
+			if sings[i] == "-" {
+				wynn = wynn - numbers[i+1]
+			}
+			if sings[i] == "*" {
+				wynn = wynn * numbers[i+1]
+			}
+			if sings[i] == "/" {
+				wynn = wynn / numbers[i+1]
+			}
+		}
+		wys.Text = fmt.Sprintln(wynn)
+		wys.Refresh()
+		sings = []string{}
+		numbers = []float64{}
+		licz = ""
+
+	})
+	e := container.NewHBox(
+		je,
+		dw,
+		tre,
+		sum,
+		tim,
+	)
+
+	win.SetContent(
+		//      container.NewWithoutLayout(
+		//        background,
+		container.NewVBox(
+			wys,
+			container.NewHBox(
+				e,
+			),
+			container.NewHBox(
+				fo,
+				fiv,
+				six,
+				diff,
+				div,
+			),
+			container.NewHBox(
+				sev,
+				eigh,
+				nine,
+				zero,
+				c,
+				eql,
+			),
+		),
+		//  ),
+	)
+	win.Resize(fyne.NewSize(600, 600))
+	win.ShowAndRun()
+}
+
+// writing given numbers on "wys" label and storing numbers as strin in var licz
+func number(x int) {
+	elo := wys.Text + strconv.Itoa(x)
+	wys.Text = elo
+	wys.Refresh()
+	licz = licz + strconv.Itoa(x)
+}
+func sign(k string) {
+	//converting string of a number created in function "numbers" into int and adding it into slice conting numbers
+	le, err := strconv.ParseFloat(licz, 64)
+	if err != nil {
+		le = 0
+	}
+	numbers = append(numbers, le)
+	//appending slice with string pulled from a button and displaying a sign on a label
+	elo := wys.Text + k
+	sings = append(sings, k)
+	wys.Text = elo
+	wys.Refresh()
+	licz = ""
+}
